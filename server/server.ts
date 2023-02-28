@@ -1,7 +1,5 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const app = express()
-const apiRouter = require('./routers/apiRouter.js')
 const PORT = process.env.PORT || 3000
 
 
@@ -9,7 +7,7 @@ const PORT = process.env.PORT || 3000
 app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
 
 //global error handler 
-app.use((err, req, res, next) => {
+app.use((err, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
     status: 500,
