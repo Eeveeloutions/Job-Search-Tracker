@@ -2,3 +2,4 @@
 /package-lock.json
 /db_pass.env
 /.DS_Store
+.env
