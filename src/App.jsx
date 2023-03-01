@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Store } from "redux";
 import { Route , Routes } from "react-router-dom";
-import MainPage from "./components/MainPage.jsx";
+import MainPage from "./containers/MainPage.jsx";
 import Login from "./components/Login.jsx";
 import SignUp from "./components/SignUp.jsx";
 

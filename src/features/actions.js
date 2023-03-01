@@ -18,18 +18,24 @@ const deleteJob = (id) => ({
     payload: id,
   });
 
+const updateAllJobs = (jobs) => ({
+  type: types.UPDATE_ALLJOBS,
+  payload: allJobs,
+})
+
 
 actions.createJobThunk = (company, title, salary, applied, date, status) => dispatch => {
-//   const id = lastid++ ?????? 
 
+//need id returned from DB
   fetch('/jobs/createJobs', {
     method: 'POST',
-    body: JSON.stringify({ id: id, company, title, salary, applied, date, status }), //may need to adjust this
+    body: JSON.stringify({company, title, salary, applied, date, status }),
     headers: {'Content-Type': 'application/json'},
   })
+  // we want to return id as res
   .then(res => {
     if(res.status === 200) {
-      dispatch(createJob(company, title, salary, applied, date, status));
+      dispatch(createJob(company, title, salary, applied, date, status, res.body.id));
     } else {
       console.log('in createJobThunk - Server returned status', res.status)
     }
@@ -38,15 +44,15 @@ actions.createJobThunk = (company, title, salary, applied, date, status) => disp
   
 }
 
-actions.updateJobThunk = (id, status) => dispatch => {
+actions.updateJobThunk = (id, property, value) => dispatch => {
   fetch(`/job/update/?id=${id}`, {
     method: 'PATCH',
-    body: JSON.stringify({ id: id, status: status}),
+    body: JSON.stringify({ id, property, value}),
     headers: {'Content-Type': 'application/json'},
   })
   .then(res => {
     if(res.status === 200) {
-      dispatch(updateJob(id, status));
+      dispatch(updateJob(id, property));
     } else {
       console.log('in updateJobThunk - Server returned status', res.status)
     }

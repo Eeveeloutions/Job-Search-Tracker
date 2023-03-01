@@ -33,7 +33,6 @@ const Login = (props) => {
       <form className='login-form'
         onSubmit={handleLogin}
         >
-      <img src='../styles/logos/mockerlogo3.png' className='login-logo' alt="" />
           <h1 className='login-text'>Login</h1>
         <input
           placeholder="Username:"
