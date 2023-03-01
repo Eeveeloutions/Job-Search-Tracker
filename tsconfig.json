@@ -7,15 +7,15 @@
     "jsx": "react",
     "sourceMap": true,
     "rootDir": "src",
-    "strict": true, /* enable all strict type-checking options */
+    "strict": true /* enable all strict type-checking options */,
     "noImplicitReturns": true, // Report error when not all code paths in function return a value. /
     "noFallthroughCasesInSwitch": true, // Report errors for fallthrough cases in switch statement. /
-    "noUnusedParameters": false,  // Report errors on unused parameters. */
+    "noUnusedParameters": false, // Report errors on unused parameters. */
     "allowUnreachableCode": false,
-    "noImplicitAny": false 
+    "noImplicitAny": true,
+    "esModuleInterop": true, // ADDED:  Error is thrown when trying to import a CommonJS module into an ES6 module.  Older version (require / module exports) VS Newer version (import / export).  This property makes new compatible w/ old.  Default value is false --> https://bobbyhadz.com/blog/typescript-module-can-only-be-default-imported-esmoduleinterop
+    "allowJs": true // ADDED:  Boilerplate - Allow JavaScript files to be imported inside your project, instead of just .ts and .tsx files
   },
   "include": ["src"],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules", "src/client"]
 }
