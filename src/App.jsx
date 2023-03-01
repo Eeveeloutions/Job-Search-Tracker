@@ -25,11 +25,13 @@ const App = () => {
           //date applied
           //stage 
           //delete button
+        <div>
     <Routes>
       <Route path="/"  element={<MainPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
     </Routes>
+    </div>
   )
 }
 

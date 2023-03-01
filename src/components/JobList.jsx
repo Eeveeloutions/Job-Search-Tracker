@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { delApp, useApp } from '../features/jobListSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Navbar from './Navbar.jsx';
 
 const JobList = () => {
-  const dispatch = useDispatch();
-  const { appList } = useSelector(state=>state);  
 
   return(
     <div id = 'id'>
