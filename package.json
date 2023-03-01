@@ -1,13 +1,35 @@
 {
   "name": "job-search-tracker",
   "version": "0.0.1",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon ./src/server/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
-    "express": "^4.18.2",
-    "cookie-parser": "^1.4.6",
+    "@types/bcrypt": "^5.0.0",
+    "@types/cookie-session": "^2.0.42",
     "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/node": "^17.0.45",
+    "@types/pg": "^8.6.6",
     "bcryptjs": "^2.3.0",
+    "cookie-parser": "^1.4.6",
+    "copy-webpack-plugin": "^10.2.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "html-webpack-plugin": "^5.5.0",
     "jsonwebtoken": "^9.0.0",
-    "cookie-parser": "^1.4.1",
-    "nodemon": "^1.8.1"
+    "nodemon": "^1.8.1",
+    "pg": "^8.9.0",
+    "postgres": "^3.3.3",
+    "psql": "^0.0.1",
+    "ts-loader": "^9.2.6",
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^4.9.5",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.2"
   }
 }

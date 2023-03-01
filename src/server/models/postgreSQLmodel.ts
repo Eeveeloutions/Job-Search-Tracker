@@ -1,5 +1,6 @@
 // DB Password:  XoujwJ73WzTj7Yua9y6IOahB7K762xym
 // URI:  postgres://taobaptu:XoujwJ73WzTj7Yua9y6IOahB7K762xym@mahmud.db.elephantsql.com/taobaptu
+// postgres://taobaptu:XoujwJ73WzTj7Yua9y6IOahB7K762xym@mahmud.db.elephantsql.com/taobaptu
 
 // Team PostgreSQL login info
 // teameevee55@gmail.com
@@ -7,36 +8,35 @@
 
 // -----------------------------
 
-const { Pool } = require("pg");
+// const { Pool } = require('pg');
+// import { Pool } from "pg";
+import * as pg from "pg";
+import * as dotenv from "dotenv"; // https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config();
 
 const PG_URI = process.env.PG_URI;
 const PASS = process.env.PASS;
+// console.log(process.env);
+// console.log("PG: ", PG_URI, PASS);
 
-const pool = new Pool({
+const pool = new pg.Pool({
   connectionString: PG_URI,
-  password: PASS,
+  // password: PASS,
+  port: 3000,
 });
 
-module.exports = {
-  query: (text: string, params: any[], callback: Function) => {
+// console.log("Pool details: ", pool);
+
+export default {
+  query: (text: any, params?: any, callback?: any): any => {
     console.log("Query executed: ", text);
     return pool.query(text, params, callback);
   },
 };
 
-// FOR WORKING IN THIS SINGLE .js FILE ONLY -- document out
-// const db = {
-//   query: (
-//     text: string,
-//     params?: any[],
-//     callback?: (err: Error, result: any) => void
-//   ) => {
-//     console.log("Query executed: ", text);
-//     return pool.query(text, params, callback);
-//   },
-// };
-
 // ----------------------------------
+
+// NOTES
 
 // TABLE CREATION
 
@@ -59,18 +59,68 @@ module.exports = {
 //     email VARCHAR NOT NULL UNIQUE,
 //     pass VARCHAR NOT NULL
 //     )
-ALTER COLUMN email VARCHAR NOT NULL UNIQUE
+
+// ...below not working perhaps due to foreign key reference constraint?  [ SEE '\d users' in CLI]
+// ALTER TABLE users
+// ALTER COLUMN email TYPE VARCHAR NOT NULL UNIQUE
+
+// DROP TABLE <tablename>
+
 // ----------------------------
 
-// "@types/cookie-session": "^2.0.42",
-// "@types/express": "^4.17.11",
-// "@types/jsonwebtoken": "^8.5.0",
-// jest dependencies
+// CRUD
 
-// userModel
-// cookieId: { type: String, required: true, unique: true },
-//   createdAt: { type: Date, expires: 30, default: Date.now },
+// JS code for INSERT (users table)
+// const queryText = `...`
+// `INSERT INTO users
+// ('name', 'pass', 'email')
+// VALUES ($1, $2, $3)
+// RETURNING *;`
+// values = ['Jim', 'Tim', 'Fred.com']
 
-// jwt.verify - SEARCH
+// ...INSERT Equivalent for ElephantSQL & CLI
+// INSERT INTO users
+// (name, pass, email)
+// VALUES ('Jim', 'Tim', 'Fred.com');
+
+// INSERT - JS code (jobs table)
+// const insertQueryText = `...`
+// INSERT INTO jobs
+// ('user_id', 'company', 'title', 'salary', 'date', 'applied', 'status', 'applied_with')
+// VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+// RETURNING *;
+// values = [1, 'Acme', 'Dev', 50, '12/2/2022', TRUE, 'Applied', 'desperation']
+
+// ...INSERT Equivalent for ElephantSQL & CLI
+// INSERT INTO jobs
+// (user_id, company, title, salary, date, applied, status, applied_with)
+// VALUES (1, 'Acme', 'Dev', 50, '12/2/2022', TRUE, 'Applied', 'desperation');
+
+// DELETE - JS code
+// const deleteQueryText =
+// `DELETE FROM jobs
+// WHERE ('user_id') IN  ... [ ('company') , etc. ]
+// ($1, $2, $3, ..)
+// RETURNING *;`
+// values = [1, 3, 4]
+
+// ...DELETE Equivalent for ElephantSQL & CLI
+// DELETE FROM jobs <-- deletes ALL rows, but NOT table itself --> DROP TABLE <tablename>
+// DELETE FROM jobs WHERE user_id=5;  // single
+// DELETE FROM jobs WHERE company IN ('GE', 'GE2');  // multiple
+
+// UPDATE ROW IN TABLE - JS code
+// const updateQueryText =
+// `UPDATE jobs
+// SET company=$1, salary=$2
+// WHERE user_id=5
+// RETURNING *
+// `;
+// values = ["SFDC", 100];
+
+// ...UPDATE Equivalent for ElephantSQL & CLI
+// UPDATE jobs
+// SET company='SFDC', salary=100
+// WHERE user_id=5;
 
 // ----------------------------

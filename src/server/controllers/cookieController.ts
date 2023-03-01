@@ -4,20 +4,32 @@ const jwt = require("jsonwebtoken");
 const db = require("../models/postgreSQLmodel.ts");
 
 // type CookieController = {
-//     setJWTasCookie: void;
-//   };
+//   setJWTasCookie?: (argo0: Request, arg1: Response, arg2: NextFunction) => void;
+// };
 const cookieController: any = {};
 
-
-cookieController.setJWTasCookie: CookieController = async (
+cookieController.setJWTasCookie = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  // ADD jwt creation here
-  // Store jwt in client's cookies (not in DB), aim to handle multiple jwts
-  // Pass jwt token along middleware chain
-  // ...
+  const secretKey = process.env.JWTSECRETKEY;
+  try {
+    // const syncToken = jwt.sign(
+    //   { payload: { email: res.locals.email } },
+    //   secretKey
+    // );
+    const syncToken = jwt.sign({ id: res.locals.id }, secretKey);
+    console.log("syncToken: ", syncToken);
+    // res.cookie("ssid", syncToken, { httpOnly: true, secure: true });  // Secure key blocking access
+    res.cookie("ssid", syncToken, { httpOnly: true });
+    return next();
+  } catch (err) {
+    return next({
+      log: "cookieController.setJWTasCookie: " + err,
+      message: { err: "cookieController.setJWTasCookie: " + err },
+    });
+  }
 };
 
-module.exports = cookieController;
+export default cookieController;

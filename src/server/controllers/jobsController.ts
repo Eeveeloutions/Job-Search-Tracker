@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-const db = require("../models/postgreSQLmodel.ts");
+import db from "../models/postgreSQLmodel";
+import jwt from "jsonwebtoken";
 
 interface CreateJobRequestBody {
   user_id: number;
@@ -17,16 +18,25 @@ interface CreateJobRequest extends Request {
 }
 
 export const jobsController = {
-  getAllJobs: async (req: Request, res: Response, next: NextFunction) => {
+  getAllJobs: async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
     try {
-      const query = `SELECT * FROM jobs`;
-      const data = await db.query(query);
-      res.locals.jobs = data.rows[0];
+      const token = req.cookies.ssid;
+      const decodedToken: any = jwt.decode(token, { complete: true });
+      const userID = decodedToken!.payload.id.toString();
+      const values = [userID];
+      const query2: string = `SELECT * FROM jobs WHERE user_id = $1;`;
+      const data: any = await db.query(query2, values);
+      console.log(data.rows);
+      res.locals.jobs = data.rows;
       return next();
     } catch (err) {
       return next({
         status: 400,
-        log: "Error in jobsController.getAllJobs",
+        log: `Error in jobsController.getAllJobs -- ${err}`,
         message: { err: "Error in jobsController.getAllJobs" },
       });
     }
@@ -39,7 +49,6 @@ export const jobsController = {
   ) => {
     try {
       const {
-        user_id,
         company = null,
         title = null,
         salary = null,
@@ -49,15 +58,15 @@ export const jobsController = {
         applied_with = null,
       } = req.body;
 
-      if (!user_id) {
-        throw new Error("user_id is required");
-      }
+      const token = req.cookies.ssid;
+      const decodedToken: any = jwt.decode(token, { complete: true });
+      const userID = decodedToken!.payload.id.toString();
 
       const query = `INSERT INTO jobs (user_id, company, title, salary, date, applied, status, applied_with) 
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         RETURNING *`;
       const values = [
-        user_id,
+        userID,
         company,
         title,
         salary,
@@ -68,7 +77,7 @@ export const jobsController = {
       ];
 
       const data = await db.query(query, values);
-      res.locals.jobs = data.rows[0];
+      res.locals.jobID = data.rows[0].id;
       return next();
     } catch (err) {
       return next({
@@ -80,9 +89,9 @@ export const jobsController = {
   },
 
   updateJob: async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const jobId = req.params.id;
+    const jobId = req.params.id;
 
+    try {
       const {
         company = null,
         title = null,
