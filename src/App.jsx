@@ -8,7 +8,7 @@ import SignUp from "./components/SignUp.jsx";
 
 const App = () => {
   const [isSigned, setIsSigned] = React.useState();
-  const [user, setUser] = React.useState()
+  const [user, setUser] = React.useState(); 
 
   return (
     //main page
