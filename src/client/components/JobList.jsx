@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import Navbar from './Navbar.jsx';
 
 const JobList = props => {
@@ -16,7 +15,7 @@ const JobList = props => {
         <input htmlFor='salary' type = 'text' value={props.salary} onBlur={(e) => props.updateJob(props.id, e.target.name, e.target.value)}/> 
       </label>
       <label id = 'applied' name = 'applied'> Applied? 
-         <input htmlFor='applied' type = 'checkbox' value={props.applied} onChange={(e) => {(e.target.value === 'unchecked') ? props.updateJob(props.id, e.target.name, 'false') : props.updateJob(props.id, e.target.name, 'true')}}/>
+         <input htmlFor='applied' type = 'checkbox' value={props.applied ? "checked" : "unchecked"} onChange={(e) => {(e.target.value === 'unchecked') ? props.updateJob(props.id, e.target.name, 'false') : props.updateJob(props.id, e.target.name, 'true')}}/>
       </label>
       <label id = 'date' name = 'date'> Date: 
          <input htmlFor='date' type = 'date'  value={props.date} onChange={(e) => props.updateJob(props.id, e.target.name, e.target.value)}/> 

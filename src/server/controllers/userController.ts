@@ -204,4 +204,34 @@ userController.isLoggedIn = (
   }
 };
 
+// ----------------------userController.logUserOut----------------------
+
+userController.logUserOut = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const logUserOut = req.params.confirmlogout; // Boolean set to true on front-end based onClick of button
+//   console.log("Confirm Logout: ", logUserOut);
+
+  if (logUserOut === "true") {
+    console.log(
+      "Cookies pre-logout: ",
+      req.cookies["Cookie_3"],
+      req.cookies["JWT-Cookie"]
+    );
+    
+    res.cookie("JWT-Cookie", "", {httpOnly: true});
+    return next();
+  } else {
+    return next({
+      status: 400,
+      log: `userController.logUserOut ERROR: logout URL parameter not equal to "true"`,
+      message: {
+        err: `userController.logUserOut: ERROR: logout URL parameter not equal to "true"`,
+      },
+    });
+  }
+};
+
 export default userController;

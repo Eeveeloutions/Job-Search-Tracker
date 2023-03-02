@@ -13,7 +13,16 @@ const PORT = process.env.PORT || 3000;
 import jobRoutes from "./routes/jobsRouter";
 import sessionRoutes from "./routes/sessionRouter";
 import userController from "./controllers/userController";
+import cors from "cors";
 
+// Override CORS error
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

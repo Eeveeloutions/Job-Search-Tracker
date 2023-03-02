@@ -3,24 +3,24 @@ import * as types from './actionTypes'
 const actions = {};
 
 //manually assign id? compatible with sql?
-const createJob = (company, title, salary, applied, date, status, id) => ({
+actions.createJob = (company, title, salary, applied, date, status, id) => ({
      type: types.ADD_LISTING,
      payload: {company, title, salary, applied, date, status, id},
 });
 
 actions.updateJob = (id, status) => ({
   type: types.UPDATE_LISTING,
-  payload: {id, status}, //does this have to be destructured
+  payload: {id, status}, 
 });
 
-const deleteJob = (id) => ({
+actions.deleteJob = (id) => ({
     type: types.DELETE_LISTING,
     payload: id,
   });
 
-const updateAllJobs = (jobs) => ({
+actions.updateAllJobs = (jobs) => ({
   type: types.UPDATE_ALLJOBS,
-  payload: allJobs,
+  payload: jobs,
 })
 
 

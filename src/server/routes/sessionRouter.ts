@@ -9,7 +9,7 @@ import cookieController from "../controllers/cookieController";
 // import { sessionController } from "../controllers/sessionController";
 // import {cookieController} from "../controllers/cookieController";
 
-// POST:  Used for actual signup and login flow
+// POST:  Used for actual signup and login flow, as well as user-initated logout
 router.post(
   "/signup",
   userController.createUser,
@@ -27,6 +27,15 @@ router.post(
   (req: Request, res: Response) => {
     return res.status(200).json("Test login");
     // res.redirect("/main");
+  }
+);
+
+router.post(
+  "/logout/:confirmlogout",
+  userController.logUserOut,
+  (req: Request, res: Response) => {
+    return res.status(200).json("Test user-initiated logout");
+    // res.redirect("/session/login");
   }
 );
 

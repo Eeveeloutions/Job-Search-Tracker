@@ -49,7 +49,10 @@ module.exports = {
     port: 8080,
     compress: true,
     proxy: {
-        '/': 'http://localhost:3000/',
+      '/': {
+        target: 'http://localhost:3000', //redirects requests to 3000 from 8080 if in dev
+        changeOrigin: true,
+      },
     }
   }, 
 };

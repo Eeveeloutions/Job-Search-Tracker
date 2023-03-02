@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
-const Login = (props) => {
-  const { setLoggedIn, loggedIn } = props;
+const Login = () => {
 
   // useState to update and track the input fields from the login page
   const [password, setPassword] = useState('');
@@ -15,10 +14,10 @@ const Login = (props) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`/session/login`, { username, password });
+      const response = await axios.post(`http://localhost:3000/session/login`, { username, password });
       console.log(response);
       if (response){ 
-        setLoggedIn(true);
+        setLoggedIn(trues);
         navigate('/')
       };
     } catch (err) {

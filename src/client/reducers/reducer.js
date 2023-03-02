@@ -1,8 +1,6 @@
 import { bindActionCreators } from 'redux'; 
 import * as types from '../features/actionTypes';
 
-
-
 const initialState = {
   jobList: [],
   totalJobs: 0
@@ -12,11 +10,14 @@ const jobsReducer = (state=initialState, action) => {
   let jobList;
   let totalJobs;
 
+  console.log('ACTION TYPE: ', action.type);
   switch(action.type) {
-    case types.UPDATE_ALLJOBS:
+    case types.UPDATE_ALLJOBS: {
       const allJobs = action.payload;
       totalJobs = allJobs.length;
       jobList = state.jobList.slice();
+
+      console.log('ENTERED switch UPDATE_ALLJOBS');
 
       allJobs.forEach(job => {
         const newJob = {
@@ -36,7 +37,9 @@ const jobsReducer = (state=initialState, action) => {
         jobList, 
         totalJobs
       }
-    case types.ADD_LISTING:
+    }
+
+    case types.ADD_LISTING: {
       totalJobs = state.totalJobs + 1;
       const newJob = {
         company: action.payload.company,
@@ -55,8 +58,9 @@ const jobsReducer = (state=initialState, action) => {
         jobList,
         totalJobs
       };
-    
-    case types.UPDATE_LISTING:
+    }
+
+    case types.UPDATE_LISTING: {
       jobList = state.jobList.slice();
       let listing = jobList.findIndex(job => job.id === action.payload.id);
       jobList[listing].status = action.payload.status //does this suffice to update the status that is passed in the actions?
@@ -64,8 +68,9 @@ const jobsReducer = (state=initialState, action) => {
         ...state,
         jobList, //no need for totalApps here right?
       }
+    }
 
-    case types.DELETE_LISTING:
+    case types.DELETE_LISTING: {
       //creating shallow copy of array
       jobList = state.jobList.slice();
       totalJobs = state.totalJobs;
@@ -78,9 +83,11 @@ const jobsReducer = (state=initialState, action) => {
         jobList,
         totalJobs,
       }
+    }
 
-    default:
+    default: {
       return state;
+    }
   }
 }
 
